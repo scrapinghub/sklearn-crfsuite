@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import pickle
 
@@ -7,8 +6,7 @@ from sklearn.model_selection import cross_val_score
 
 from sklearn_crfsuite import CRF
 
-
-ALGORITHMS =  ["lbfgs", "l2sgd", "pa", "ap", "arow"]
+ALGORITHMS = ["lbfgs", "l2sgd", "pa", "ap", "arow"]
 
 
 @pytest.mark.parametrize("algorithm", ALGORITHMS)
@@ -17,7 +15,7 @@ def test_crf(xseq, yseq, algorithm):
     crf.fit([xseq], [yseq])
 
     y_pred = crf.predict([xseq])
-    if algorithm != 'ap':  # Averaged Perceptron is regularized too much
+    if algorithm != "ap":  # Averaged Perceptron is regularized too much
         assert y_pred == [yseq]
 
 
@@ -31,14 +29,9 @@ def test_crf_verbose(xseq, yseq, algorithm, use_dev):
     else:
         X_dev, y_dev = None, None
 
-    crf.fit(
-        X=[xseq, xseq],
-        y=[yseq, yseq],
-        X_dev=X_dev,
-        y_dev=y_dev
-    )
+    crf.fit(X=[xseq, xseq], y=[yseq, yseq], X_dev=X_dev, y_dev=y_dev)
     y_pred = crf.predict([xseq])
-    if algorithm != 'ap':  # Averaged Perceptron is regularized too much
+    if algorithm != "ap":  # Averaged Perceptron is regularized too much
         assert y_pred == [yseq]
 
 
@@ -72,7 +65,7 @@ def test_crf_score(xseq, yseq, algorithm):
     crf.fit([xseq], [yseq])
 
     score = crf.score([xseq], [yseq])
-    if algorithm != 'ap':
+    if algorithm != "ap":
         assert score == 1.0
     else:  # Averaged Perceptron is regularized too much
         assert score > 0.8
@@ -86,7 +79,7 @@ def test_crf_pickling(xseq, yseq, algorithm):
 
     crf2 = pickle.loads(data)
     score = crf2.score([xseq], [yseq])
-    if algorithm != 'ap':
+    if algorithm != "ap":
         assert score == 1.0
     else:  # Averaged Perceptron is regularized too much
         assert score > 0.8
@@ -138,16 +131,16 @@ def test_attributes(xseq, yseq):
     assert crf.state_features_ is None
     assert crf.transition_features_ is None
 
-    crf.fit([xseq]*20, [yseq]*20)
+    crf.fit([xseq] * 20, [yseq] * 20)
 
     assert crf.tagger_ is not None
     assert crf.size_ > 1000
-    assert set(crf.classes_) == {'sunny', 'rainy'}
+    assert set(crf.classes_) == {"sunny", "rainy"}
 
     assert crf.num_attributes_ > 0
     assert len(crf.attributes_) == crf.num_attributes_
     assert all(crf.attributes_)
-    assert 'clean' in crf.attributes_
+    assert "clean" in crf.attributes_
 
     assert len(crf.state_features_) > 0
     assert all(isinstance(c, float) for c in crf.state_features_.values())
