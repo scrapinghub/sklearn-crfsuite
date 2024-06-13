@@ -1,0 +1,6 @@
+ipython
+matplotlib
+numpy
+pickleshare  # ipython optional dependency
+sphinx==6.2.1
+sphinx-rtd-theme==2.0.0

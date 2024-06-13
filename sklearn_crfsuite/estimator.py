@@ -1,13 +1,9 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import
-
-from six.moves import zip
-from tqdm import tqdm
 import pycrfsuite
+from tqdm import tqdm
 
 from sklearn_crfsuite._fileresource import FileResource
-from sklearn_crfsuite.trainer import LinePerIterationTrainer
 from sklearn_crfsuite.compat import BaseEstimator
+from sklearn_crfsuite.trainer import LinePerIterationTrainer
 
 
 class CRF(BaseEstimator):
@@ -207,37 +203,38 @@ class CRF(BaseEstimator):
         is to use pickle (or its alternatives like joblib).
 
     """
-    def __init__(self,
-                 algorithm=None,
 
-                 min_freq=None,
-                 all_possible_states=None,
-                 all_possible_transitions=None,
-                 c1=None,
-                 c2=None,
-                 max_iterations=None,
-                 num_memories=None,
-                 epsilon=None,
-                 period=None,
-                 delta=None,
-                 linesearch=None,
-                 max_linesearch=None,
-                 calibration_eta=None,
-                 calibration_rate=None,
-                 calibration_samples=None,
-                 calibration_candidates=None,
-                 calibration_max_trials=None,
-                 pa_type=None,
-                 c=None,
-                 error_sensitive=None,
-                 averaging=None,
-                 variance=None,
-                 gamma=None,
-
-                 verbose=False,
-                 model_filename=None,
-                 keep_tempfiles=False,
-                 trainer_cls=None):
+    def __init__(
+        self,
+        algorithm=None,
+        min_freq=None,
+        all_possible_states=None,
+        all_possible_transitions=None,
+        c1=None,
+        c2=None,
+        max_iterations=None,
+        num_memories=None,
+        epsilon=None,
+        period=None,
+        delta=None,
+        linesearch=None,
+        max_linesearch=None,
+        calibration_eta=None,
+        calibration_rate=None,
+        calibration_samples=None,
+        calibration_candidates=None,
+        calibration_max_trials=None,
+        pa_type=None,
+        c=None,
+        error_sensitive=None,
+        averaging=None,
+        variance=None,
+        gamma=None,
+        verbose=False,
+        model_filename=None,
+        keep_tempfiles=False,
+        trainer_cls=None,
+    ):
 
         self.algorithm = algorithm
         self.min_freq = min_freq
@@ -263,12 +260,14 @@ class CRF(BaseEstimator):
         self.averaging = averaging
         self.variance = variance
         self.gamma = gamma
+        self.model_filename = model_filename
+        self.keep_tempfiles = keep_tempfiles
 
         self.modelfile = FileResource(
             filename=model_filename,
             keep_tempfiles=keep_tempfiles,
             suffix=".crfsuite",
-            prefix="model"
+            prefix="model",
         )
         self.verbose = verbose
         self.trainer_cls = trainer_cls
@@ -295,7 +294,9 @@ class CRF(BaseEstimator):
         y_dev : (optional) list of lists of strings
             Labels corresponding to X_dev.
         """
-        if (X_dev is None and y_dev is not None) or (X_dev is not None and y_dev is None):
+        if (X_dev is None and y_dev is not None) or (
+            X_dev is not None and y_dev is None
+        ):
             raise ValueError("Pass both X_dev and y_dev to use the holdout data")
 
         if self._tagger is not None:
@@ -308,7 +309,9 @@ class CRF(BaseEstimator):
         train_data = zip(X, y)
 
         if self.verbose:
-            train_data = tqdm(train_data, "loading training data to CRFsuite", len(X), leave=True)
+            train_data = tqdm(
+                train_data, "loading training data to CRFsuite", len(X), leave=True
+            )
 
         for xseq, yseq in train_data:
             trainer.append(xseq, yseq)
@@ -320,7 +323,9 @@ class CRF(BaseEstimator):
             test_data = zip(X_dev, y_dev)
 
             if self.verbose:
-                test_data = tqdm(test_data, "loading dev data to CRFsuite", len(X_dev), leave=True)
+                test_data = tqdm(
+                    test_data, "loading dev data to CRFsuite", len(X_dev), leave=True
+                )
 
             for xseq, yseq in test_data:
                 trainer.append(xseq, yseq, 1)
@@ -412,6 +417,7 @@ class CRF(BaseEstimator):
         For other metrics check :mod:`sklearn_crfsuite.metrics`.
         """
         from sklearn_crfsuite.metrics import flat_accuracy_score
+
         y_pred = self.predict(X)
         return flat_accuracy_score(y, y_pred)
 
@@ -446,7 +452,7 @@ class CRF(BaseEstimator):
         """
         if self._info is None:
             return None
-        return int(self._info.header['size'])
+        return int(self._info.header["size"])
 
     @property
     def num_attributes_(self):
@@ -455,7 +461,7 @@ class CRF(BaseEstimator):
         """
         if self._info is None:
             return None
-        return int(self._info.header['num_attrs'])
+        return int(self._info.header["num_attrs"])
 
     @property
     def attributes_(self):
@@ -502,29 +508,29 @@ class CRF(BaseEstimator):
     def _get_trainer(self):
         trainer_cls = self.trainer_cls or LinePerIterationTrainer
         params = {
-            'feature.minfreq': self.min_freq,
-            'feature.possible_states': self.all_possible_states,
-            'feature.possible_transitions': self.all_possible_transitions,
-            'c1': self.c1,
-            'c2': self.c2,
-            'max_iterations': self.max_iterations,
-            'num_memories': self.num_memories,
-            'epsilon': self.epsilon,
-            'period': self.period,
-            'delta': self.delta,
-            'linesearch': self.linesearch,
-            'max_linesearch': self.max_linesearch,
-            'calibration.eta': self.calibration_eta,
-            'calibration.rate': self.calibration_rate,
-            'calibration.samples': self.calibration_samples,
-            'calibration.candidates': self.calibration_candidates,
-            'calibration.max_trials': self.calibration_max_trials,
-            'type': self.pa_type,
-            'c': self.c,
-            'error_sensitive': self.error_sensitive,
-            'averaging': self.averaging,
-            'variance': self.variance,
-            'gamma': self.gamma,
+            "feature.minfreq": self.min_freq,
+            "feature.possible_states": self.all_possible_states,
+            "feature.possible_transitions": self.all_possible_transitions,
+            "c1": self.c1,
+            "c2": self.c2,
+            "max_iterations": self.max_iterations,
+            "num_memories": self.num_memories,
+            "epsilon": self.epsilon,
+            "period": self.period,
+            "delta": self.delta,
+            "linesearch": self.linesearch,
+            "max_linesearch": self.max_linesearch,
+            "calibration.eta": self.calibration_eta,
+            "calibration.rate": self.calibration_rate,
+            "calibration.samples": self.calibration_samples,
+            "calibration.candidates": self.calibration_candidates,
+            "calibration.max_trials": self.calibration_max_trials,
+            "type": self.pa_type,
+            "c": self.c,
+            "error_sensitive": self.error_sensitive,
+            "averaging": self.averaging,
+            "variance": self.variance,
+            "gamma": self.gamma,
         }
         params = {k: v for k, v in params.items() if v is not None}
         return trainer_cls(
@@ -535,6 +541,6 @@ class CRF(BaseEstimator):
 
     def __getstate__(self):
         dct = self.__dict__.copy()
-        dct['_tagger'] = None
-        dct['_info_cached'] = None
+        dct["_tagger"] = None
+        dct["_info_cached"] = None
         return dct

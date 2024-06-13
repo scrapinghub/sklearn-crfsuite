@@ -1,0 +1,30 @@
+[flake8]
+max-line-length = 119
+per-file-ignores =
+# Exclude files that are meant to provide top-level imports
+# E402: Module level import not at top of file
+# F401: Module imported but unused
+    sklearn_crfsuite/__init__.py:E402
+
+# Issues pending a review:
+ignore =
+    B017,
+    D100,
+    D101,
+    D102,
+    D103,
+    D104,
+    D105,
+    D107,
+    D200,
+    D205,
+    D400,
+    E203,
+    E501,
+    E701,
+    E704,
+    F401,
+    W503
+exclude =
+    docs/conf.py
+    setup.py
