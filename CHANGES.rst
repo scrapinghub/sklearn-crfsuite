@@ -1,6 +1,23 @@
 Changes
 =======
 
+0.4.0 (2024-06-DD)
+------------------
+
+* Dropped official support for Python 3.6 and lower, and added official support
+  for Python 3.8 and higher.
+
+* Added support for scikit-learn 0.24.0 and higher.
+
+* Increased minimum versions of dependencies as follows:
+
+  * python-crfsuite: 0.8.3 → 0.9.7
+  * scikit-learn: 0.24.0
+  * tabulate: 0.4.2
+
+* Internal changes: enabled GitHub Actions for CI, added a tox environment for
+  minimum supported versions of dependencies, applied automatic code cleanups.
+
 0.3.6 (2017-06-22)
 ------------------
 
