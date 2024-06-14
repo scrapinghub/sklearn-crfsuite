@@ -11,6 +11,8 @@ jobs:
       matrix:
         include:
         - python-version: "3.8"
+          toxenv: min
+        - python-version: "3.8"
         - python-version: "3.9"
         - python-version: "3.10"
         - python-version: "3.11"
@@ -37,7 +39,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ['3.12']
-        tox-job: ["pre-commit", "mypy", "twinecheck"]
+        tox-job: ["pre-commit", "docs", "twinecheck"]
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
