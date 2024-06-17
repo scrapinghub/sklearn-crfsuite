@@ -4,7 +4,7 @@ Changes
 0.4.0 (2024-06-DD)
 ------------------
 
-* Dropped official support for Python 3.6 and lower, and added official support
+* Dropped official support for Python 3.7 and lower, and added official support
   for Python 3.8 and higher.
 
 * Added support for scikit-learn 0.24.0 and higher.
