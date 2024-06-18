@@ -366,11 +366,11 @@ class CRF(BaseEstimator):
 
         Returns
         -------
-        y : np.array of strings
+        y : list of strings
             predicted labels
 
         """
-        return np.array(self.tagger_.tag(xseq), dtype=object)
+        return self.tagger_.tag(xseq)
 
     def predict_marginals(self, X):
         """
@@ -400,19 +400,16 @@ class CRF(BaseEstimator):
 
         Returns
         -------
-        y : np.array of dicts
+        y : list of dicts
             predicted probabilities for each label at each position
 
         """
         labels = self.tagger_.labels()
         self.tagger_.set(xseq)
-        return np.array(
-            [
-                {label: self.tagger_.marginal(label, i) for label in labels}
-                for i in range(len(xseq))
-            ],
-            dtype=object,
-        )
+        return [
+            {label: self.tagger_.marginal(label, i) for label in labels}
+            for i in range(len(xseq))
+        ]
 
     def score(self, X, y):
         """
