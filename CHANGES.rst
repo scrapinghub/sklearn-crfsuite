@@ -1,7 +1,7 @@
 Changes
 =======
 
-0.4.0 (2024-06-DD)
+0.4.0 (2024-06-18)
 ------------------
 
 * Dropped official support for Python 3.7 and lower, and added official support
