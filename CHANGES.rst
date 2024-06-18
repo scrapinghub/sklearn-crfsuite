@@ -1,7 +1,7 @@
 Changes
 =======
 
-0.5.0 (2024-06-DD)
+0.5.0 (2024-06-18)
 ------------------
 
 * The ``CRF.predict()`` and ``CRF.predict_marginals()`` methods now return a
