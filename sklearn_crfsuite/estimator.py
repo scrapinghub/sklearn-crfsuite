@@ -406,10 +406,13 @@ class CRF(BaseEstimator):
         """
         labels = self.tagger_.labels()
         self.tagger_.set(xseq)
-        return np.array([
-            {label: self.tagger_.marginal(label, i) for label in labels}
-            for i in range(len(xseq))
-        ], dtype=object)
+        return np.array(
+            [
+                {label: self.tagger_.marginal(label, i) for label in labels}
+                for i in range(len(xseq))
+            ],
+            dtype=object,
+        )
 
     def score(self, X, y):
         """
