@@ -1,6 +1,18 @@
 Changes
 =======
 
+0.5.0 (2024-06-DD)
+------------------
+
+* The ``CRF.predict()`` and ``CRF.predict_marginals()`` methods now return a
+  numpy array, as expected by newer versions of scikit-learn.
+
+* Fixed the parameters of a call to the
+  ``sklearn.metrics.classification_report()`` function from the
+  ``flat_classification_report()`` function.
+
+* ``sequence_accuracy_score`` now works with numpy arrays.
+
 0.4.0 (2024-06-18)
 ------------------
 
