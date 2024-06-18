@@ -2,6 +2,7 @@ import os
 import pickle
 
 import pytest
+import numpy as np
 from sklearn.model_selection import cross_val_score
 
 from sklearn_crfsuite import CRF
@@ -16,7 +17,7 @@ def test_crf(xseq, yseq, algorithm):
 
     y_pred = crf.predict([xseq])
     if algorithm != "ap":  # Averaged Perceptron is regularized too much
-        assert y_pred == [yseq]
+        assert (y_pred==yseq).all()
 
 
 @pytest.mark.parametrize("algorithm", ALGORITHMS)
@@ -32,7 +33,7 @@ def test_crf_verbose(xseq, yseq, algorithm, use_dev):
     crf.fit(X=[xseq, xseq], y=[yseq, yseq], X_dev=X_dev, y_dev=y_dev)
     y_pred = crf.predict([xseq])
     if algorithm != "ap":  # Averaged Perceptron is regularized too much
-        assert y_pred == [yseq]
+        assert (y_pred==[yseq]).all()
 
 
 @pytest.mark.parametrize("algorithm", ALGORITHMS)

@@ -1,3 +1,4 @@
+import numpy as np
 import pycrfsuite
 from tqdm import tqdm
 
@@ -348,11 +349,11 @@ class CRF(BaseEstimator):
 
         Returns
         -------
-        y : list of lists of strings
+        y : np.array of lists of strings
             predicted labels
 
         """
-        return list(map(self.predict_single, X))
+        return np.array(list(map(self.predict_single, X)), dtype=object)
 
     def predict_single(self, xseq):
         """
@@ -365,11 +366,11 @@ class CRF(BaseEstimator):
 
         Returns
         -------
-        y : list of strings
+        y : np.array of strings
             predicted labels
 
         """
-        return self.tagger_.tag(xseq)
+        return np.array(self.tagger_.tag(xseq), dtype=object)
 
     def predict_marginals(self, X):
         """
@@ -382,11 +383,11 @@ class CRF(BaseEstimator):
 
         Returns
         -------
-        y : list of lists of dicts
+        y : np.array of lists of dicts
             predicted probabilities for each label at each position
 
         """
-        return list(map(self.predict_marginals_single, X))
+        return np.array(list(map(self.predict_marginals_single, X)), dtype=object)
 
     def predict_marginals_single(self, xseq):
         """
@@ -399,16 +400,16 @@ class CRF(BaseEstimator):
 
         Returns
         -------
-        y : list of dicts
+        y : np.array of dicts
             predicted probabilities for each label at each position
 
         """
         labels = self.tagger_.labels()
         self.tagger_.set(xseq)
-        return [
+        return np.array([
             {label: self.tagger_.marginal(label, i) for label in labels}
             for i in range(len(xseq))
-        ]
+        ], dtype=object)
 
     def score(self, X, y):
         """
