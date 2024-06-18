@@ -43,3 +43,4 @@ def test_sequence_accuracy():
         metrics.sequence_accuracy_score([[1, 2], [3], [4]], [[1, 2], [4], [4]]) == 2 / 3
     )
     assert metrics.sequence_accuracy_score([[1, 2], [3]], [[1, 2], [3]]) == 1.0
+    assert metrics.sequence_accuracy_score([[1, 2], [3]], [[3], [1, 2]]) == 0
