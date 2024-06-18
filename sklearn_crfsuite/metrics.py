@@ -85,6 +85,6 @@ def sequence_accuracy_score(y_true, y_pred):
         return 0
     y_true = np.array(y_true, dtype=object)
     y_pred = np.array(y_pred, dtype=object)
-    matches = (y_true == y_pred).sum()
+    matches = np.sum(y_true == y_pred)
 
     return matches / total
