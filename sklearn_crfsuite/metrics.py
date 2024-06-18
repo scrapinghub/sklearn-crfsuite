@@ -1,5 +1,7 @@
 from functools import wraps
 
+import numpy as np
+
 from sklearn_crfsuite.utils import flatten
 
 
@@ -81,9 +83,8 @@ def sequence_accuracy_score(y_true, y_pred):
     total = len(y_true)
     if not total:
         return 0
-
-    matches = sum(
-        1 for yseq_true, yseq_pred in zip(y_true, y_pred) if yseq_true == yseq_pred
-    )
+    y_true = np.array(y_true, dtype=object)
+    y_pred = np.array(y_pred, dtype=object)
+    matches = (y_true == y_pred).sum()
 
     return matches / total
